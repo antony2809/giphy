@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npx tailwind build src/styles.css src/tailwind.css && ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -19,6 +19,8 @@
     "@angular/platform-browser": "~8.2.3",
     "@angular/platform-browser-dynamic": "~8.2.3",
     "@angular/router": "~8.2.3",
+    "@ngxs/logger-plugin": "^3.5.1-dev.master-90ff853",
+    "@ngxs/store": "^3.5.1-dev.master-90ff853",
     "rxjs": "~6.4.0",
     "tailwindcss": "^1.1.2",
     "tslib": "^1.10.0",

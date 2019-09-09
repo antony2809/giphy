@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SharedModule } from './modules/shared.module';
+import { NgxsModule } from '@ngxs/store';
+import { ApiKeyInterceptor } from './interceptors/api-key.interceptor';
 
 @NgModule({
   declarations: [
@@ -12,10 +13,16 @@ import { SharedModule } from './modules/shared.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxsModule.forRoot([])
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiKeyInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
