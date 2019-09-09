@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
 import { GifState } from 'src/app/state/gifs.state';
 import { SharedModule } from '../shared.module';
-
+import { MasonryGalleryModule } from 'ngx-masonry-gallery';
 
 
 @NgModule({
@@ -13,6 +13,7 @@ import { SharedModule } from '../shared.module';
   imports: [
     CommonModule,
     SharedModule,
+    MasonryGalleryModule,
     NgxsModule.forFeature([
       GifState
     ]),

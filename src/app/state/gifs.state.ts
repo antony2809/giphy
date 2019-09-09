@@ -1,11 +1,14 @@
-import { State, Action, StateContext } from '@ngxs/store';
+import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { SearchGiphy, LoadMore, GetGiphy, GetTrending } from './gifs.action';
 import { GiphyService } from '../services/giphy.service';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { Gif } from '../interfaces/gif.interface';
+import { IMasonryGalleryImage } from 'ngx-masonry-gallery';
 
 export interface GifStateModel {
     loading: boolean;
+    items: IMasonryGalleryImage[];
 }
 
 
@@ -13,9 +16,15 @@ export interface GifStateModel {
     name: 'gifs',
     defaults: {
         loading: false,
+        items: null,
     }
 })
 export class GifState {
+
+    @Selector()
+    static items({ items }) {
+        return items;
+    }
 
     constructor(private giphyService: GiphyService) {
 
@@ -25,11 +34,14 @@ export class GifState {
     getTrending(ctx: StateContext<GifStateModel>, action: GetTrending) {
         return this.giphyService.getTrending()
             .pipe(
-                map(({ data, pagination }) => data),
                 catchError(this.handleError)
             )
             .subscribe(res => {
-                console.log(res);
+                ctx.patchState({
+                    items: res.data.map(item => {
+                        return { imageUrl: item.images.fixed_height.url } as IMasonryGalleryImage;
+                    })
+                });
             });
     }
     @Action(SearchGiphy)

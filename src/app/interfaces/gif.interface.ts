@@ -1,5 +1,5 @@
 import { User } from './user.interface';
-import { Image } from './image.interface';
+import { Images } from './image.interface';
 
 export interface Gif {
     type: string;
@@ -11,5 +11,5 @@ export interface Gif {
     rating: string;
     user: User;
     title: string;
-    images: Image[];
+    images: Images;
 }

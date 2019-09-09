@@ -176,7 +176,7 @@ export interface PreviewGif {
     size: string;
 }
 
-export interface Image {
+export interface Images {
     fixed_height_still?: FixedHeightStill;
     original_still?: OriginalStill;
     fixed_width?: FixedWidth;
