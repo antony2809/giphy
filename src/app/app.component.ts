@@ -13,7 +13,7 @@ export class AppComponent {
 
   constructor(private http: HttpClient) {
     this.test$ = this.http
-      .get('https://api.giphy.com/v1/gifs/search?api_key=fCH19ipMALgKWpXw8NWyDhIyZrHCgYPD&q=jordan&limit=25&offset=0&rating=G&lang=en')
+      .get('https://api.giphy.com/v1/gifs/search?q=jordan&limit=25&offset=0&rating=G&lang=en');
   }
 
   title = 'giphy';
