@@ -1,9 +1,17 @@
 <div *ngIf="items$ | async ; let items; else loading">
     <h2 class="text-3xl">Search results for <span class="font-bold">{{query}}</span></h2>
     <div class="mb-6 cursor-pointer text-teal-400" (click)="goToHome()">← Go home</div>
-    <app-gif-list (selected)="navToGif($event)" [gifs]="items"></app-gif-list>
-    <div *ngIf="endOfList$ | async" class="w-full flex justify-center py-6 text-2xl text-teal-400">Game complete
-        :)</div>
+    <div *ngIf="items.length; else empty">
+        <app-gif-list (selected)="navToGif($event)" [gifs]="items"></app-gif-list>
+        <div *ngIf="endOfList$ | async" class="w-full flex justify-center py-6 text-2xl text-teal-400">Game complete
+            :)</div>
+    </div>
+
+    <ng-template #empty>
+        <div class="text-left mt-12">There are no gifs matching <span class="underline">{{query}}</span>, sorry :(</div>
+    </ng-template>
+    
+
 </div>
 
 <ng-template #loading>
