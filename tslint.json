@@ -12,8 +12,7 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
-      "camelCase"
+      "giphy"
     ],
     "component-selector": [
       true,

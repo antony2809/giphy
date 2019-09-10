@@ -11,7 +11,7 @@ export class GiphyService {
 
     search(query: string, offset = 0) {
         return this.http
-            .get(`${environment.baseUrl}/v1/gifs/search?q=${query}&limit=${environment.requestLimit}&offset=${offset}`);
+            .get<GiphyQueryResponse>(`${environment.baseUrl}/v1/gifs/search?q=${query}&limit=${environment.requestLimit}&offset=${offset}`);
     }
 
     getTrending() {

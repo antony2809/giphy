@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -9,12 +10,14 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent {
 
-  test$: Observable<any>
+  query = new FormControl(null, Validators.compose([Validators.required, Validators.min(1)]));
 
-  constructor(private http: HttpClient) {
-    this.test$ = this.http
-      .get('https://api.giphy.com/v1/gifs/search?q=jordan&limit=25&offset=0&rating=G&lang=en');
+  constructor(private router: Router) {
+
   }
 
-  title = 'giphy';
+  search() {
+    if (this.query.invalid) { return; }
+    this.router.navigate(['search', this.query.value]);
+  }
 }

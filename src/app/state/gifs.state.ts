@@ -1,14 +1,17 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { SearchGiphy, LoadMore, GetGiphy, GetTrending } from './gifs.action';
 import { GiphyService } from '../services/giphy.service';
-import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { throwError, Subscription } from 'rxjs';
 import { Gif } from '../interfaces/gif.interface';
-import { IMasonryGalleryImage } from 'ngx-masonry-gallery';
+import { environment } from '../../environments/environment';
 
 export interface GifStateModel {
     loading: boolean;
-    items: IMasonryGalleryImage[];
+    items: Gif[];
+    query: string;
+    currentOffset: number;
+    endOfPage: boolean;
 }
 
 
@@ -17,13 +20,27 @@ export interface GifStateModel {
     defaults: {
         loading: false,
         items: null,
+        query: null,
+        currentOffset: 0,
+        endOfPage: false
     }
 })
 export class GifState {
 
+
     @Selector()
-    static items({ items }) {
+    static items({ items }: GifStateModel) {
         return items;
+    }
+
+    @Selector()
+    static loading({ loading }: GifStateModel) {
+        return loading;
+    }
+
+    @Selector()
+    static endOfList({ endOfPage }: GifStateModel) {
+        return endOfPage;
     }
 
     constructor(private giphyService: GiphyService) {
@@ -31,29 +48,47 @@ export class GifState {
     }
 
     @Action(GetTrending)
-    getTrending(ctx: StateContext<GifStateModel>, action: GetTrending) {
+    getTrending(ctx: StateContext<GifStateModel>) {
         return this.giphyService.getTrending()
             .pipe(
                 catchError(this.handleError)
             )
             .subscribe(res => {
                 ctx.patchState({
-                    items: res.data.map(item => {
-                        return { imageUrl: item.images.fixed_height.url } as IMasonryGalleryImage;
-                    })
+                    items: res.data
                 });
             });
     }
     @Action(SearchGiphy)
     search(ctx: StateContext<GifStateModel>, action: SearchGiphy) {
+        let state = ctx.getState();
+        const query = action.payload || state.query;
+        const currentOffset = action.payload ? 0 : state.currentOffset;
 
+        ctx.patchState({
+            loading: true,
+            items: action.payload ? null : state.items,
+            query
+        });
+
+        return this.giphyService.search(query, currentOffset)
+            .pipe(
+                catchError(this.handleError)
+            )
+            .subscribe(res => {
+                const { count, total_count, offset } = res.pagination;
+                state = ctx.getState();
+                ctx.patchState({
+                    items: [...state.items || [], ...res.data],
+                    loading: false,
+                    currentOffset: currentOffset + environment.requestLimit,
+                    endOfPage: offset + count >= total_count
+                });
+            });
     }
 
-    @Action(LoadMore)
-    loadMore(ctx: StateContext<GifStateModel>) { }
-
     @Action(GetGiphy)
-    getGiphy(ctx: StateContext<GifStateModel>, action: GetGiphy) { }
+    getGiphy() { }
 
     private handleError(error) {
         let errorMessage = '';

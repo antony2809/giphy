@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   apiKey: 'fCH19ipMALgKWpXw8NWyDhIyZrHCgYPD',
   baseUrl: 'https://api.giphy.com',
-  requestLimit: 24,
+  requestLimit: 36,
 };
 
 /*

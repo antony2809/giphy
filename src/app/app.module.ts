@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgxsModule } from '@ngxs/store';
 import { ApiKeyInterceptor } from './interceptors/api-key.interceptor';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,9 @@ import { ApiKeyInterceptor } from './interceptors/api-key.interceptor';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxsModule.forRoot([])
+    NgxsModule.forRoot([]),
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
