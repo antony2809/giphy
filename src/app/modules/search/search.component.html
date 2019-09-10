@@ -1,6 +1,9 @@
 <div *ngIf="items$ | async ; let items; else loading">
-    <app-gif-list [gifs]="items"></app-gif-list>
-    <div *ngIf="endOfList$ | async" class="w-full flex justify-center py-6 text-2xl text-teal-400">Game complete :)</div>
+    <h2 class="text-3xl">Search results for <span class="font-bold">{{query}}</span></h2>
+    <div class="mb-6 cursor-pointer text-teal-400" (click)="goToHome()">← Go home</div>
+    <app-gif-list (selected)="navToGif($event)" [gifs]="items"></app-gif-list>
+    <div *ngIf="endOfList$ | async" class="w-full flex justify-center py-6 text-2xl text-teal-400">Game complete
+        :)</div>
 </div>
 
 <ng-template #loading>

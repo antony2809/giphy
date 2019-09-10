@@ -8,6 +8,7 @@ export interface Gif {
     bitly_url: string;
     embed_url: string;
     source: string;
+    source_tld: string;
     rating: string;
     user: User;
     title: string;

@@ -1,10 +1,12 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { SearchGiphy, LoadMore, GetGiphy, GetTrending } from './gifs.action';
+import { SearchGiphy, GetGiphy, GetTrending } from './gifs.action';
 import { GiphyService } from '../services/giphy.service';
-import { catchError } from 'rxjs/operators';
-import { throwError, Subscription } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 import { Gif } from '../interfaces/gif.interface';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
+import { NgZone } from '@angular/core';
 
 export interface GifStateModel {
     loading: boolean;
@@ -43,7 +45,11 @@ export class GifState {
         return endOfPage;
     }
 
-    constructor(private giphyService: GiphyService) {
+    constructor(
+        private giphyService: GiphyService,
+        private router: Router,
+        private zone: NgZone
+    ) {
 
     }
 
@@ -88,7 +94,24 @@ export class GifState {
     }
 
     @Action(GetGiphy)
-    getGiphy() { }
+    getGiphy(ctx: StateContext<GifStateModel>, action: SearchGiphy) {
+        ctx.patchState({
+            loading: true,
+            items: null,
+            query: null
+        });
+        return this.giphyService.getGiphy(action.payload)
+            .pipe(
+                map(({ data }) => data)
+            )
+            .subscribe(gif => {
+                this.zone.run(() => {
+                    this.router.navigate(['gif', `${gif.title.replace(/ /g, '-')}-${gif.id}`], {
+                        state: { gif }
+                    });
+                });
+            });
+    }
 
     private handleError(error) {
         let errorMessage = '';

@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   { path: '', loadChildren: () => import('./modules/trending/trending.module').then(m => m.TrendingModule) },
   { path: 'search/:query', loadChildren: () => import('./modules/search/search.module').then(m => m.SearchModule) },
-  { path: 'gif/:id', loadChildren: () => import('./modules/gif-item/gif-item.module').then(m => m.GifItemModule) },
+  { path: 'gif/:url', loadChildren: () => import('./modules/gif-item/gif-item.module').then(m => m.GifItemModule) },
   { path: '**', redirectTo: '' }
 ];
 

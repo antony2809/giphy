@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Gif } from 'src/app/interfaces/gif.interface';
 
 @Component({
@@ -9,6 +9,15 @@ import { Gif } from 'src/app/interfaces/gif.interface';
 export class GifListComponent implements OnInit {
 
     @Input() gifs: Gif[];
+    @Output() selected = new EventEmitter<Gif>();
+
+    trackById(index: number, item: Gif) {
+        return item.id;
+    }
+
+    selectGif(gif: Gif) {
+        this.selected.emit(gif);
+    }
 
     ngOnInit() { }
 }

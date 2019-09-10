@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { NgxsModule } from '@ngxs/store';
 import { ApiKeyInterceptor } from './interceptors/api-key.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxsModule.forRoot([]),
+    NgxsModule.forRoot([], {
+      developmentMode: !environment.production
+    }),
     FormsModule,
     ReactiveFormsModule
   ],

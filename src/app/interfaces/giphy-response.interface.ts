@@ -7,3 +7,9 @@ export interface GiphyQueryResponse {
     pagination: Pagination;
     meta: Meta;
 }
+
+
+export interface GiphyResponse {
+    data: Gif;
+    meta: Meta;
+}

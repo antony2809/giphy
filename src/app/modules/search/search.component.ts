@@ -21,11 +21,13 @@ export class SearchComponent implements OnDestroy {
 
     routeEvents$: Subscription;
 
+    query: string;
+
     @HostListener('window:scroll', ['$event'])
     onScroll() {
-        const top = (window.pageYOffset || this.document.documentElement.scrollTop) - (this.document.documentElement.clientTop || 0);
-        const offsetHeight = this.document.body.offsetHeight;
-        const scrollHeight = this.document.body.scrollHeight;
+        const top = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
+        const offsetHeight = document.body.offsetHeight;
+        const scrollHeight = document.body.scrollHeight;
         if ((offsetHeight + top + 100) >= scrollHeight) {
             const loading = this.store.selectSnapshot(GifState.loading);
             const endOfList = this.store.selectSnapshot(GifState.endOfList);
@@ -43,6 +45,16 @@ export class SearchComponent implements OnDestroy {
         this.onRouteChange();
     }
 
+    goToHome() {
+        this.router.navigateByUrl('/');
+    }
+
+    navToGif(gif: Gif) {
+        this.router.navigate(['gif', `${gif.title.replace(/ /g, '-')}-${gif.id}`], {
+            state: { gif }
+        });
+    }
+
     ngOnDestroy() {
         this.routeEvents$.unsubscribe();
     }
@@ -51,6 +63,7 @@ export class SearchComponent implements OnDestroy {
         this.routeEvents$ = this.router.events.subscribe((evt) => {
             if (evt instanceof NavigationEnd) {
                 const { query } = this.route.snapshot.params;
+                this.query = query;
                 this.store.dispatch(new SearchGiphy(query));
             }
         });

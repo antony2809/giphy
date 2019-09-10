@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { GiphyQueryResponse } from '../interfaces/giphy-response.interface';
+import { GiphyQueryResponse, GiphyResponse } from '../interfaces/giphy-response.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -21,6 +21,6 @@ export class GiphyService {
 
     getGiphy(giphyId: string) {
         return this.http
-            .get(`${environment.baseUrl}/v1/gifs/${giphyId}`);
+            .get<GiphyResponse>(`${environment.baseUrl}/v1/gifs/${giphyId}`);
     }
 }

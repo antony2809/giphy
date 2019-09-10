@@ -9,7 +9,7 @@ export class SearchGiphy {
 }
 export class GetGiphy {
     static readonly type = '[Gifs] GetGiphy]';
-    constructor(public readonly payload?: number) { }
+    constructor(public readonly payload?: string) { }
 }
 
 
