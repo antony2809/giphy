@@ -1,7 +1,7 @@
 # Giphy
 
 To serve: `npm run start`
-To serve production: `ng serve --prod`
+To serve production: `npm run start:prod`
 To build: `npm run build`
-To test: `ng serve`
+To test: `npm run test`
 

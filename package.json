@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "npx tailwind build src/styles.css src/tailwind.css && ng serve",
+    "start:prod": "npx tailwind build src/styles.css src/tailwind.css && ng serve --prod",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
