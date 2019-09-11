@@ -5,7 +5,7 @@ import { GifState } from 'src/app/state/gifs.state';
 import { Observable } from 'rxjs';
 import { Gif } from 'src/app/interfaces/gif.interface';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
     selector: 'app-trending',
@@ -20,8 +20,10 @@ export class TrendingComponent implements OnInit {
     constructor(
         private store: Store,
         private router: Router,
+        private appService: ApplicationService
     ) {
         this.store.dispatch(new GetTrending());
+        this.appService.searchInput = '';
     }
 
     navToGif(gif: Gif) {

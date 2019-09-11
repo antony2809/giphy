@@ -1,9 +1,8 @@
 <div class="flex flex-wrap -mx-1">
-    <!-- <ngx-masonry-gallery [width]='255' [images]='items$ | async'></ngx-masonry-gallery> -->
     <div (click)="selectGif(gif)" *ngFor="let gif of gifs; trackBy:trackById"
         class="my-1 px-1 w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 media">
         <div giphyBackground class="content  border-2 border-black hover:border-teal-400 overflow-hidden">
-            <img [asyncImage]="gif.images.fixed_height.url" class="object-fit h-full w-full object-center"
+            <img [asyncImage]="gif.images.fixed_height.url" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" class="object-fit h-full w-full object-center"
                 [alt]="gif.title">
         </div>
     </div>

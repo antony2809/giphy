@@ -1,5 +1,5 @@
 <div *ngIf="items$ | async ; let items; else loading">
-    <h2 class="text-3xl">Search results for <span class="font-bold">{{query}}</span></h2>
+    <h2 class="text-xl md:text-3xl">Search results for <span class="font-bold">{{query}}</span></h2>
     <div class="mb-6 cursor-pointer text-teal-400" (click)="goToHome()">← Go home</div>
     <div *ngIf="items.length; else empty">
         <app-gif-list (selected)="navToGif($event)" [gifs]="items"></app-gif-list>

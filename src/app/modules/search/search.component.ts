@@ -5,6 +5,7 @@ import { SearchGiphy } from '../../state/gifs.action';
 import { GifState } from '../../state/gifs.state';
 import { Observable, Subscription } from 'rxjs';
 import { Gif } from '../../interfaces/gif.interface';
+import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
     selector: 'app-search',
@@ -23,7 +24,7 @@ export class SearchComponent implements OnDestroy {
 
     query: string;
 
-    @HostListener('window:scroll', ['$event'])
+    @HostListener('window:scroll')
     onScroll() {
         const top = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
         const offsetHeight = document.body.offsetHeight;
@@ -41,6 +42,7 @@ export class SearchComponent implements OnDestroy {
         private store: Store,
         private route: ActivatedRoute,
         private router: Router,
+        private appService: ApplicationService
     ) {
         this.onRouteChange();
     }
@@ -65,6 +67,7 @@ export class SearchComponent implements OnDestroy {
                 const { query } = this.route.snapshot.params;
                 this.query = query;
                 this.store.dispatch(new SearchGiphy(query));
+                this.appService.searchInput = query;
             }
         });
     }
